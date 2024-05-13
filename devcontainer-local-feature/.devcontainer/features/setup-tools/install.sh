@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo
+set -euo pipefail
 
 # nodejs tools
 su ${_REMOTE_USER} -c "source /usr/local/share/nvm/nvm.sh && npm install -g \
