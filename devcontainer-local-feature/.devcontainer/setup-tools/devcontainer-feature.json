@@ -1,0 +1,7 @@
+{
+    "id": "setup-toolchains",
+    "version": "0.0.1",
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/node"
+    ]
+}
