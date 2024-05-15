@@ -29,3 +29,28 @@ https://python-poetry.org/docs/basic-usage/#operating-modes
 [tool.poetry]
 package-mode = false
 ```
+
+
+### Vite Multiple Entrypoints
+
+Create multiple pages without router (at the sacrifice of performance)
+
+```js
+// vite.config.js
+
+import { defineConfig } from "vite"
+import { resolve } from "path"
+
+export default defineConfig({
+    base: "./",
+    build: {
+        rollupOptions: {
+            input: {
+                main: resolve(__dirname, 'index.html'),
+                othello: resolve(__dirname, "components", "othello", "index.html")
+            }
+        },
+    }
+})
+```
+
