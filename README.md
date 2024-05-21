@@ -6,6 +6,22 @@ Used when you want to install global tools which depends on
 [Devcontainer features](https://containers.dev/features).
 
 
+### Devcontainer Share Host AWS Credentials
+
+```jsonc
+// .devcontainer/devcontainer.json
+
+{
+  "initializeCommand": {
+    "ensure-aws-dir": "mkdir -p ${localEnv:HOME}/.aws"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=consistent"
+  ]
+}
+```
+
+
 ### Poetry
 
 #### Create cwd .venv
