@@ -21,6 +21,16 @@ Used when you want to install global tools which depends on
 }
 ```
 
+### Devcontainer Preserve Fish Shell History
+
+```jsonc
+{
+  "mounts": [
+    "source=${devcontainerId}-fish-history,target=/home/vscode/.local/share/fish,type=volume"
+  ]
+}
+```
+
 
 ### Poetry
 
