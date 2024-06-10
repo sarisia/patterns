@@ -31,6 +31,17 @@ Used when you want to install global tools which depends on
 }
 ```
 
+### Devcontainer Non-root User
+
+```
+RUN groupadd --gid 1000 vscode \
+    && useradd --uid 1000 --gid 1000 -m vscode
+```
+
+Devcontainer automatically updates UID/GID to match host's ones
+
+[Add non-root user to a container](https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)
+
 
 ### Poetry
 
