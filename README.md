@@ -21,6 +21,18 @@ Used when you want to install global tools which depends on
 }
 ```
 
+### Devcontainer Ensure .env File
+
+```jsonc
+// .devcontainer/devcontainer.json
+
+{
+  "initializeCommand": {
+    "ensure-dotenv-file": "cp --no-clobber .env.example .env || true"
+  }
+}
+```
+
 ### Devcontainer Preserve Fish Shell History
 
 ```jsonc
