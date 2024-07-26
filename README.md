@@ -55,6 +55,13 @@ Devcontainer automatically updates UID/GID to match host's ones
 [Add non-root user to a container](https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)
 
 
+### Temporary Non-root
+
+```
+RUN su node -c "npm run prod"
+```
+
+
 ### Poetry
 
 #### Create cwd .venv
