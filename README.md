@@ -110,3 +110,73 @@ export default defineConfig({
 })
 ```
 
+### AWS CDK ECS EFS Access Point
+
+It's complicated as fuck
+
+```typescript
+        // efs for sqlite
+        const fsSg = new ec2.SecurityGroup(
+            this,
+            "FileSystemSecurityGroup",
+            {
+                vpc: vpc,
+                allowAllOutbound: true,
+            },
+        );
+        const fs = new efs.FileSystem(this, "FileSystem", {
+            vpc: vpc,
+            vpcSubnets: {
+                subnetGroupName: "EFS",
+            },
+            securityGroup: fsSg
+        });
+        const fsAccessPoint = fs.addAccessPoint("FileSystemAccessPoint", {
+            path: "/laravelefs",
+            posixUser: {
+                uid: "1000",
+                gid: "1000",
+            },
+            createAcl: {
+                ownerGid: "1000",
+                ownerUid: "1000",
+                permissions: "750",
+            }
+        })
+
+        const debugTaskSg = new ec2.SecurityGroup(
+            this,
+            "DebugTaskSecurityGroup",
+            {
+                vpc: vpc,
+                allowAllOutbound: true,
+            },
+        );
+        // debug task -> efs
+        fsSg.addIngressRule(debugTaskSg,
+            ec2.Port.tcp(efs.FileSystem.DEFAULT_PORT),
+            "Allow NFS traffic from debug task",
+        )
+
+        const task: ecs.FargateTaskDefinition
+        // efs connection
+        fs.grantReadWrite(task.taskRole)
+        task.addVolume({
+            name: "laravelefs",
+            efsVolumeConfiguration: {
+                fileSystemId: fs.fileSystemId,
+                authorizationConfig: {
+                    accessPointId: fsAccessPoint.accessPointId,
+                    iam: "ENABLED",
+                },
+                transitEncryption: "ENABLED",
+            }
+        })
+        debugContainer.addMountPoints({
+            containerPath: "/mnt/laravelefs",
+            sourceVolume: "laravelefs",
+            readOnly: false,
+        })
+
+
+
