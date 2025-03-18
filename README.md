@@ -177,6 +177,12 @@ It's complicated as fuck
             sourceVolume: "laravelefs",
             readOnly: false,
         })
+```
 
+### Git update remote only on local (insteadOf)
 
+Useful for submodules
 
+```
+$ git config --global url."git@github.com:".insteadOf https://github.com/
+```
