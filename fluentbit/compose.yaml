@@ -1,0 +1,9 @@
+services:
+  fluentbit:
+    image: cr.fluentbit.io/fluent/fluent-bit:3
+    restart: unless-stopped
+    volumes:
+      # state dbs
+      - "./data:/data"
+      # config file
+      - "./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro"
