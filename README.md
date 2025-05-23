@@ -186,3 +186,19 @@ Useful for submodules
 ```
 $ git config --global url."git@github.com:".insteadOf https://github.com/
 ```
+
+
+### Caddy Docker Build
+
+```dockerfile
+FROM caddy:2-builder AS builder
+
+RUN xcaddy build \
+    --with github.com/caddy-dns/route53
+
+
+FROM caddy:2 AS caddy
+
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+```
+
