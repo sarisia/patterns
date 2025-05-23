@@ -202,3 +202,68 @@ FROM caddy:2 AS caddy
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 ```
 
+
+### Caddy Cors
+
+```
+domainname.sarisia.cc, :9000 {
+    @cors {
+        method OPTIONS
+    }
+
+    header Access-Control-Allow-Origin "*"
+    header Access-Control-Allow-Methods "*"
+    header Access-Control-Allow-Headers "*"
+    header Access-Control-Allow-Credentials "true"
+
+    respond @cors 204
+    reverse_proxy server:9000
+}
+```
+
+
+### Caddy Route53
+
+https://github.com/caddy-dns/route53
+
+```
+{
+    acme_dns route53 {
+        region "ap-northeast-1"
+        hosted_zone_id "Zxxxxx"
+    }
+}
+```
+
+
+### AWS IAM Policy to update specific records of Route53
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "route53:ChangeResourceRecordSets",
+            "Resource": "arn:aws:route53:::hostedzone/Zxxxxx",
+            "Condition": {
+                "ForAnyValue:StringLike": {
+                    "route53:ChangeResourceRecordSetsNormalizedRecordNames": "*.domainname.sarisia.cc"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "route53:ListResourceRecordSets",
+                "route53:GetChange"
+            ],
+            "Resource": [
+                "arn:aws:route53:::hostedzone/Zxxxxx",
+                "arn:aws:route53:::change/*"
+            ]
+        }
+    ]
+}
+```
+
