@@ -267,3 +267,14 @@ https://github.com/caddy-dns/route53
 }
 ```
 
+
+### Docker Compose Start Point
+
+```yaml
+services:
+  caddy:
+    restart: unless-stopped
+    logging:
+      driver: local
+```
+
