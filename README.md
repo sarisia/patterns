@@ -278,3 +278,12 @@ services:
       driver: local
 ```
 
+
+
+### Docker Multi Platform Build
+
+```
+$ docker run --privileged --rm tonistiigi/binfmt --install all
+$ docker buildx create --name buildx
+$ docker buildx use buildx
+```
