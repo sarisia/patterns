@@ -6,17 +6,19 @@ Used when you want to install global tools which depends on
 [Devcontainer features](https://containers.dev/features).
 
 
-### Devcontainer Share Host AWS Credentials
+### Devcontainer Share Host Credentials
 
 ```jsonc
 // .devcontainer/devcontainer.json
 
 {
   "initializeCommand": {
-    "ensure-aws-dir": "mkdir -p ${localEnv:HOME}/.aws"
+    "ensure-aws-dir": "mkdir -p ${localEnv:HOME}/.aws",
+    "ensure-gh-cli-directory": "mkdir -p ${localEnv:HOME}/.config/gh",
   },
   "mounts": [
-    "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=consistent"
+    "source=${localEnv:HOME}/.aws,target=/home/vscode/.aws,type=bind,consistency=consistent",
+    "source=${localEnv:HOME}/.config/gh,target=/home/vscode/.config/gh,type=bind,consistency=consistent"
   ]
 }
 ```
